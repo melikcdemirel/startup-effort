@@ -1,0 +1,890 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Pre-Seed Deep-Tech Effort Game</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column; a TRL ruler (the subject's own scale) organises the plan; controls sit in a side rail on wide screens. */
+:root{
+  --bg:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781; --grid:#e1e0d9; --axis:#c3c2b7;
+  --accent:#184f95; --accent-soft:#e6eefa; --bad:#d03b3b;
+  --tech:#2a78d6; --gov:#eb6834; --vc:#1baf7a; --ind:#eda100; --disc:#e87ba4;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif; --body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0d0d0d; --surface:#1a1a19; --ink:#ffffff; --ink2:#c3c2b7; --muted:#898781; --grid:#2c2c2a; --axis:#383835;
+  --accent:#86b6ef; --accent-soft:#16263b; --bad:#e66767;
+  --tech:#3987e5; --gov:#d95926; --vc:#199e70; --ind:#c98500; --disc:#d55181; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0d0d0d; --surface:#1a1a19; --ink:#ffffff; --ink2:#c3c2b7; --muted:#898781; --grid:#2c2c2a; --axis:#383835;
+  --accent:#86b6ef; --accent-soft:#16263b; --bad:#e66767;
+  --tech:#3987e5; --gov:#d95926; --vc:#199e70; --ind:#c98500; --disc:#d55181; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px;padding-block:36px 64px;display:grid;gap:40px;grid-template-columns:minmax(0,1fr) 280px;align-items:start}
+header{grid-column:1/-1;display:grid;gap:10px;max-width:760px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-stretch:112%;font-weight:750;font-size:clamp(28px,4.4vw,42px);line-height:1.08;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-stretch:108%;font-weight:700;font-size:21px;line-height:1.2;margin:0;text-wrap:balance}
+p{margin:0;max-width:68ch}
+.lede{font-size:17px;color:var(--ink2)}
+main{display:grid;gap:44px;min-width:0}
+section{display:grid;gap:14px;min-width:0}
+.sub{color:var(--ink2)}
+.note{font-size:13px;color:var(--muted)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* verdict */
+.verdict{background:var(--surface);border:1px solid var(--grid);border-radius:6px;padding:20px 22px;display:grid;gap:14px}
+.verdict ol{margin:0;padding-left:20px;display:grid;gap:8px}
+.verdict li{max-width:66ch}
+.kpis{display:flex;flex-wrap:wrap;gap:8px 28px;border-top:1px solid var(--grid);padding-top:14px}
+.kpi b{display:block;font-family:var(--display);font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12.5px;color:var(--ink2)}
+
+/* legend + plan */
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--ink2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.plan{display:grid;gap:12px}
+.prow{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;align-items:center}
+.plabel b{display:block;font-weight:600}
+.plabel span{font-size:12.5px;color:var(--muted)}
+.bar{display:flex;gap:2px;height:38px}
+.seg{display:flex;align-items:center;justify-content:center;min-width:0;overflow:hidden;font-family:var(--mono);font-size:12.5px;font-weight:500;color:#fff;border-radius:3px;cursor:default}
+.seg[data-a="ind"],.seg[data-a="disc"],.seg[data-a="vc"]{color:#0b0b0b}
+.ruler{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px}
+.ruler div{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--muted);border-top:1px solid var(--axis);padding-top:4px}
+
+/* table */
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th{font-weight:500;font-size:12.5px;color:var(--muted);text-align:right;padding:6px 10px;border-bottom:1px solid var(--axis);white-space:nowrap}
+th:first-child,td:first-child{text-align:left;padding-left:0}
+td{padding:9px 10px;border-bottom:1px solid var(--grid);text-align:right;vertical-align:middle}
+td small{display:block;color:var(--muted);font-size:12px}
+tr.best td{background:var(--accent-soft)}
+tr.best td:first-child{padding-left:8px}
+.cellbar{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.cellbar i{display:block;height:10px;border-radius:0 3px 3px 0;background:var(--accent)}
+.cellbar .track{flex:1;min-width:70px;display:flex}
+.mix{display:flex;gap:1px;height:6px;width:110px;margin-top:5px}
+.mix i{display:block;border-radius:1px}
+
+/* charts */
+.chart{background:var(--surface);border:1px solid var(--grid);border-radius:6px;padding:14px 14px 8px}
+svg{display:block;width:100%;height:auto;overflow:visible}
+svg text{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+svg .lab{fill:var(--ink2);font-family:var(--body);font-size:12px}
+.multi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.multi h3{margin:0 0 4px;font-size:13px;font-weight:600}
+.key{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--ink2)}
+.key svg{display:inline-block;width:26px;height:8px;vertical-align:middle;margin-right:6px}
+
+/* arena */
+.abar{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
+.abar button{padding:7px 12px}
+.abar label{font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:6px}
+.abar select{font:inherit;font-size:13px;padding:5px 6px;border-radius:5px;border:1px solid var(--axis);background:var(--surface);color:var(--ink)}
+.astat{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:13px;color:var(--ink2)}
+.astat b{font-family:var(--mono);font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+canvas{display:block;width:100%;touch-action:pan-y}
+.chart h3{margin:0 0 6px;font-size:13px;font-weight:600}
+#acap{min-height:3.1em}
+.glyphs{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--ink2)}
+.glyphs svg{display:inline-block;width:16px;height:16px;vertical-align:-3px;margin-right:5px}
+/* games */
+.games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.games h3{margin:0 0 4px;font-size:14px;font-weight:600}
+.games p{font-size:14px;color:var(--ink2)}
+.games .num{color:var(--ink)}
+details{border-top:1px solid var(--grid);padding-top:12px}
+summary{cursor:pointer;font-weight:600}
+details ul{margin:10px 0 0;padding-left:18px;display:grid;gap:6px;color:var(--ink2);font-size:14px;max-width:72ch}
+
+/* controls */
+aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);background:var(--surface);border:1px solid var(--grid);border-radius:6px;padding:18px;display:grid;gap:14px}
+aside h2{font-size:16px}
+.ctl{display:grid;gap:3px}
+.ctl label{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--ink2)}
+.ctl output{font-family:var(--mono);color:var(--ink);font-size:12.5px}
+input[type=range]{width:100%;accent-color:var(--accent);margin:0}
+.seg2{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--axis);border-radius:5px;overflow:hidden}
+.seg2 label{font-size:12.5px;text-align:center;padding:7px 4px;cursor:pointer;color:var(--ink2)}
+.seg2 input{position:absolute;opacity:0;pointer-events:none}
+.seg2 input:checked+span{color:var(--ink);font-weight:600}
+.seg2 label:has(input:checked){background:var(--accent-soft)}
+.seg2 label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:-2px}
+button{font:inherit;font-weight:600;border-radius:5px;padding:9px 12px;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:var(--bg)}
+button.ghost{background:transparent;color:var(--accent)}
+button:disabled{opacity:.55;cursor:progress}
+button:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btns{display:grid;grid-template-columns:1fr auto;gap:8px}
+#status{font-size:12.5px;color:var(--ink2);min-height:1.5em}
+.prog{height:3px;background:var(--grid);border-radius:2px;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+#tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12.5px;padding:6px 9px;border-radius:4px;z-index:5;max-width:240px}
+@media (max-width:900px){ .wrap{grid-template-columns:minmax(0,1fr)} aside{position:static;order:2} header{order:1} main{order:3} .games{grid-template-columns:1fr} }
+@media (max-width:520px){ .prow,.ruler{grid-template-columns:1fr;gap:4px} .ruler div:first-child{display:none} .multi{grid-template-columns:1fr} }
+@media (prefers-reduced-motion:reduce){ .prog i{transition:none} }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Game-theory simulation · TRL 2 → 6</div>
+    <h1>Where should a pre-seed deep-tech startup put its energy?</h1>
+    <p class="lede">A founding team splits each month between building the technology, raising money and talking to customers. Grant rivals, investors and customers all react to what it does. The simulation plays that game thousands of times and searches for the split that most often reaches a fundable company.</p>
+  </header>
+
+  <main>
+    <section class="verdict" aria-live="polite">
+      <h2 id="v-head"></h2>
+      <ol id="v-list"></ol>
+      <div class="kpis" id="v-kpis"></div>
+    </section>
+
+    <section>
+      <h2>The plan: effort by technology stage</h2>
+      <p class="sub">Share of the team's working time in each TRL band, for the best plan the search found. Hover a block for detail.</p>
+      <div class="legend" id="legend"></div>
+      <div class="plan" id="plan"></div>
+    </section>
+
+    <section id="arena-sec">
+      <h2>Watch the game play out</h2>
+      <p class="sub">Each dot is one startup moving along the TRL scale over the months, grouped by strategy. When a cohort ends, investors reset their bar from what they saw, grant competition adjusts, and the next cohort has more of whatever worked. Press Play, then run several generations.</p>
+      <div class="abar">
+        <button id="a-play">Play</button>
+        <button id="a-next" class="ghost">Next generation</button>
+        <button id="a-restart" class="ghost">Restart</button>
+        <label for="a-speed">Speed <select id="a-speed"><option value="1">1×</option><option value="2.5" selected>2.5×</option><option value="6">6×</option></select></label>
+        <label for="a-auto"><input type="checkbox" id="a-auto" checked> Keep running generations</label>
+      </div>
+      <p class="note" id="aset"></p>
+      <div class="astat" id="astat"></div>
+      <div class="chart"><canvas id="arena" height="560"></canvas></div>
+      <div class="glyphs">
+        <span><svg viewBox="0 0 16 16"><circle cx="5" cy="8" r="3" fill="var(--ink)"/><circle cx="12" cy="8" r="1.8" fill="var(--ink)"/></svg>Dot size is cash in the bank</span>
+        <span><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="4" fill="var(--ink)" opacity=".3"/></svg>Faded means customer trust is burned</span>
+        <span><svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" stroke="var(--bad)" stroke-width="2" fill="none"/></svg>Out of cash</span>
+        <span><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5" fill="none" stroke="var(--accent)" stroke-width="2"/><circle cx="8" cy="8" r="2.5" fill="var(--accent)"/></svg>Reached the milestone</span>
+        <span><i style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--gov);margin-right:5px"></i>grant won</span>
+        <span><i style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--ind);margin-right:5px"></i>pilot signed</span>
+        <span><i style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--vc);margin-right:5px"></i>investor money</span>
+      </div>
+      <div class="chart"><h3>What investors see this month</h3><canvas id="sigs" height="96"></canvas></div>
+      <p class="sub" id="acap"></p>
+    </section>
+
+    <section>
+      <h2>How the common strategies compare</h2>
+      <p class="sub">Each one played 2,000 times against the same field of rivals, investors and customers. The small strip shows its opening mix.</p>
+      <div class="tablewrap"><table id="tour"></table></div>
+      <p class="note">Milestone: TRL 6, at least one paid industry pilot, and a clear picture of the customer, before the money or the clock runs out. Founder value is the chance of reaching it times the equity still held.</p>
+    </section>
+
+    <section>
+      <h2>When to start working customers in earnest</h2>
+      <p class="sub" id="timing-text"></p>
+      <div class="key">
+        <span><svg viewBox="0 0 26 8"><line x1="0" y1="4" x2="26" y2="4" stroke="var(--ink)" stroke-width="2"/></svg>Light listening (8% of time) before the switch</span>
+        <span><svg viewBox="0 0 26 8"><line x1="0" y1="4" x2="26" y2="4" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 3"/></svg>No customer contact before the switch</span>
+      </div>
+      <div class="chart" id="timing"></div>
+    </section>
+
+    <section>
+      <h2>What premature selling does to a company</h2>
+      <p class="sub">The median startup under the optimised plan against the customer-first strategy, month by month.</p>
+      <div class="key">
+        <span><svg viewBox="0 0 26 8"><line x1="0" y1="4" x2="26" y2="4" stroke="var(--ink)" stroke-width="2"/></svg>Optimised plan</span>
+        <span><svg viewBox="0 0 26 8"><line x1="0" y1="4" x2="26" y2="4" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 3"/></svg>Customer-first</span>
+      </div>
+      <div class="multi" id="multi"></div>
+    </section>
+
+    <section>
+      <h2>The three games inside</h2>
+      <div class="games" id="games"></div>
+      <details>
+        <summary>Model assumptions and limits</summary>
+        <ul>
+          <li>The numbers are illustrative. Rates, cheque sizes and thresholds are reasonable guesses, not fitted to data. Trust the ranking of strategies and the shape of the curves more than any single percentage, and move the sliders to match your own situation.</li>
+          <li>Technology: progress slows as TRL rises and costs more. Past TRL 3.5, up to 70% of progress is wasted if the team does not know what the customer needs.</li>
+          <li>Customers: listening has diminishing returns, so a little goes a long way. Pushing before a demo exists (TRL 5) burns trust in proportion to how hard you push, and selling pushes 1.5 times harder than listening. Trust recovers slowly because deep-tech buyer pools are small.</li>
+          <li>Government money: non-dilutive, best suited to TRL 2–5, paid three months after a win. Your odds depend on your effort relative to the rivals' effort.</li>
+          <li>Investors: see a noisy signal built from TRL (40%), market knowledge (20%), contracts (25%) and grants won (15%). They fund above a bar they set from how often startups with that signal succeed. Angels fund slightly below the bar at harsher terms. A rejected pitch costs goodwill.</li>
+          <li>Industry pilots: need about TRL 4.5, trust and market knowledge. Each one pays cash, teaches you the market, and takes 10% of the team's time for four months.</li>
+          <li>Half of the field you compete in adapts toward whatever works. The other half is a fixed mix of the six named strategies.</li>
+          <li>Left out: team quality, IP, regulation, co-founder dynamics, and anything after the milestone. Because the model stops at the milestone, cash in the bank at that point has no value, which understates what a seed round is for.</li>
+        </ul>
+      </details>
+    </section>
+  </main>
+
+  <aside>
+    <h2>Your situation</h2>
+    <div class="ctl"><label>Optimise for</label>
+      <div class="seg2">
+        <label><input type="radio" name="obj" id="obj-value" value="value" checked><span>Founder value</span></label>
+        <label><input type="radio" name="obj" id="obj-success" value="success"><span>Odds of success</span></label>
+      </div>
+    </div>
+    <div id="sliders" style="display:grid;gap:12px"></div>
+    <div class="btns"><button id="run">Run simulation</button><button id="reset" class="ghost">Reset</button></div>
+    <div class="prog"><i id="bar"></i></div>
+    <div id="status">Showing the default scenario.</div>
+  </aside>
+</div>
+<div id="tip" hidden></div>
+
+<script id="engine-src">
+// Deep-tech pre-seed startup game: engine (shared by Node tests and the page)
+// Money in $k, time in months. Activities: tech, gov, vc, ind, disc.
+const ACTS = ['tech', 'gov', 'vc', 'ind', 'disc'];
+
+function defaultParams() {
+  return {
+    horizon: 36,      // months to reach the milestone
+    cash0: 150,       // starting cash ($k)
+    burn0: 14,        // fixed monthly burn ($k)
+    labCost: 8,       // extra burn per unit tech effort ($k), grows with TRL
+    startTRL: 2,
+    techRate: 0.42,   // TRL levels / month at full effort at TRL 2
+    wasteMax: 0.7,    // share of late tech progress wasted with zero market knowledge
+    learnRate: 0.30,  // market knowledge gain rate
+    friction: 0.6,    // trust burned by pushing customers before a demo exists
+    trlShow: 5,       // TRL at which customers stop feeling over-promised
+    trlPilot: 4.5,    // TRL at which paid pilots become possible
+    rivals: 10,       // rival startups chasing the same grants
+    grantAwards: 1.2, // awards per month across the field
+    grantSize: 150,   // $k
+    hurdle: 0.25,     // success probability investors need to see
+    raiseBase: 500,   // $k seed cheque scale
+    goalTRL: 6,
+    objective: 'value'
+  };
+}
+
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function gauss(rng) {
+  let u = rng(); if (u < 1e-12) u = 1e-12;
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(6.283185307 * rng());
+}
+const sig = x => 1 / (1 + Math.exp(-x));
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+
+function phaseOf(trl) { return trl < 4 ? 0 : trl < 5 ? 1 : 2; }
+
+// A phased policy: 3 rows (TRL <4, 4-5, 5+) x 5 activity weights.
+function phasePolicy(w) {
+  return s => w[phaseOf(s.trl)];
+}
+
+function defaultEnv() { return { xbar: 0.06, theta: 0.42 }; }
+
+// One startup life. Returns outcome plus what it contributed to the shared environment.
+function simulate(policy, P, env, rng, wantTraj) {
+  const s = { trl: P.startTRL, cash: P.cash0, K: 0.1, R: 0.6, V: 1, equity: 1,
+              contracts: 0, grants: 0, month: 0, lastRound: -99 };
+  const pay = [];            // {due, amt}
+  const duty = [];           // months when contract delivery ends
+  const out = { success: false, dead: false, t: P.horizon, equity: 1, gx: 0,
+                pitches: [], rounds: 0, pushEarly: 0, traj: wantTraj ? [] : null };
+  for (let m = 1; m <= P.horizon; m++) {
+    s.month = m;
+    const evs = out.traj ? [] : null;
+    const raw = policy(s);
+    let tot = 0; for (let i = 0; i < 5; i++) tot += Math.max(0, raw[i]);
+    if (tot <= 0) tot = 1;
+    const active = duty.filter(d => d >= m).length;
+    const avail = 1 - 0.1 * Math.min(3, active);       // delivery work eats time
+    const e = raw.map(x => Math.max(0, x) / tot * avail);
+    const [eT, eG, eV, eI, eC] = e;
+
+    for (let i = pay.length - 1; i >= 0; i--) if (pay[i].due <= m) { s.cash += pay[i].amt; pay.splice(i, 1); }
+    s.cash -= P.burn0 + P.labCost * eT * (1 + 0.35 * (s.trl - 2));
+    if (s.cash < 0) {
+      out.dead = true; out.t = m;
+      if (out.traj) out.traj.push({ m, trl: s.trl, cash: 0, K: s.K, R: s.R, equity: s.equity, contracts: s.contracts, grants: s.grants, dead: true, ev: [] });
+      break;
+    }
+
+    // 1. Technology
+    const waste = P.wasteMax * (1 - s.K) * sig(2 * (s.trl - 3.5));
+    let d = P.techRate * Math.pow(eT, 0.75) / (1 + 0.22 * (s.trl - 2)) * (1 - waste)
+            * Math.exp(0.35 * gauss(rng) - 0.06);
+    if (active && s.trl >= 4) d += 0.03 * Math.min(2, active);  // field learning
+    if (rng() < 0.03) d -= 0.3;                                  // failed experiment
+    s.trl = clamp(s.trl + d, 1, 9);
+
+    // 3. Customers: learning and trust (repeated game with a small buyer pool)
+    const gap = Math.max(0, (P.trlShow - s.trl) / P.trlShow);
+    const push = eC + 1.5 * eI;                                  // selling pushes harder than listening
+    s.K += P.learnRate * Math.pow(eC, 0.6) * (1 - s.K) * (0.5 + 0.5 * s.R);
+    let dR = -P.friction * Math.pow(push, 1.6) * gap + 0.015 * (1 - s.R);
+    if (gap === 0) dR += 0.15 * eC * (1 - s.R);                  // demos rebuild trust
+    s.R = clamp(s.R + dR, 0, 1);
+    if (gap > 0) out.pushEarly += push * gap;
+
+    // 2a. Government: Tullock contest against rivals
+    const fitG = Math.exp(-Math.pow((s.trl - 3.5) / 2.5, 2));
+    const x = eG * fitG * (0.6 + 0.4 * s.K) * (1 + 0.15 * Math.min(3, s.grants));
+    out.gx += x;
+    if (x > 0) {
+      const p = Math.min(0.9, P.grantAwards * x / (x + P.rivals * env.xbar + 1e-9));
+      if (rng() < p) {
+        s.grants++; if (evs) evs.push('grant');
+        pay.push({ due: m + 3, amt: P.grantSize * clamp(0.7 + 0.2 * (s.trl - 2), 0.7, 2) });
+      }
+    }
+
+    // 2b. Industry contract: needs a demo, trust and knowing the customer
+    if (eI > 0) {
+      const p = 0.35 * (1 - Math.exp(-3 * eI)) * s.R * s.K * sig(1.5 * (s.trl - P.trlPilot));
+      if (rng() < p) {
+        s.contracts++; if (evs) evs.push('pilot');
+        pay.push({ due: m + 2, amt: 80 + 40 * Math.max(0, s.trl - 4) });
+        duty.push(m + 4);
+        s.K += 0.1 * (1 - s.K); s.R = clamp(s.R + 0.05, 0, 1);
+      }
+    }
+
+    // 2c. Investors: signalling game. They see a noisy signal and fund above a threshold.
+    s.V = clamp(s.V + 0.02, 0, 1);
+    if (eV > 0 && m - s.lastRound >= 12 && rng() < (1 - Math.exp(-4 * eV)) * s.V) {
+      const sigv = 0.40 * clamp((s.trl - 1) / 5, 0, 1) + 0.20 * s.K
+                 + 0.25 * Math.min(1, s.contracts / 2) + 0.15 * Math.min(1, s.grants / 2)
+                 + 0.08 * gauss(rng);
+      const sv = clamp(sigv, 0, 1);
+      const pitch = { s: sv, funded: false };
+      out.pitches.push(pitch);
+      if (sv >= env.theta) {                       // institutional seed
+        const amt = P.raiseBase * (0.6 + sv), pre = 800 + 8000 * sv * sv;
+        s.equity *= pre / (pre + amt); pay.push({ due: m + 2, amt });
+        s.lastRound = m; out.rounds++; pitch.funded = true; if (evs) evs.push('seed');
+      } else if (sv >= env.theta - 0.15) {         // angel cheque, harsher terms
+        const amt = 100, pre = 600 + 3000 * sv * sv;
+        s.equity *= pre / (pre + amt); pay.push({ due: m + 1, amt });
+        s.lastRound = m - 6; out.rounds++; pitch.funded = true; if (evs) evs.push('angel');
+      } else {
+        s.V = clamp(s.V - 0.2, 0, 1); if (evs) evs.push('no');              // a weak pitch burns the bridge
+      }
+    }
+
+    if (out.traj) out.traj.push({ m, trl: s.trl, cash: s.cash, K: s.K, R: s.R, equity: s.equity, contracts: s.contracts, grants: s.grants, ev: evs });
+    if (s.trl >= P.goalTRL && s.contracts >= 1 && s.K >= 0.5) { out.success = true; out.t = m; break; }
+  }
+  out.equity = s.equity; out.finalTRL = s.trl; out.finalK = s.K; out.finalR = s.R;
+  out.contracts = s.contracts; out.grants = s.grants;
+  return out;
+}
+
+// Monte Carlo with common random numbers.
+function evaluate(policy, P, env, n, seed, keep) {
+  let succ = 0, dead = 0, pay = 0, eq = 0, tS = 0, gx = 0, rounds = 0, trl = 0, grants = 0, contracts = 0;
+  const pitches = [], trajs = [];
+  for (let i = 0; i < n; i++) {
+    const o = simulate(policy, P, env, mulberry32(seed + i * 7919), keep && i < keep);
+    if (o.success) { succ++; pay += o.equity; eq += o.equity; tS += o.t; }
+    if (o.dead) dead++;
+    gx += o.gx; rounds += o.rounds; trl += o.finalTRL; grants += o.grants; contracts += o.contracts;
+    for (const p of o.pitches) pitches.push({ s: p.s, ok: o.success ? 1 : 0 });
+    if (o.traj) trajs.push(o);
+  }
+  return {
+    pSuccess: succ / n, pDead: dead / n, payoff: pay / n,
+    equity: succ ? eq / succ : NaN, tSuccess: succ ? tS / succ : NaN,
+    xbar: gx / (n * P.horizon), rounds: rounds / n, trl: trl / n,
+    grants: grants / n, contracts: contracts / n, pitches, trajs
+  };
+}
+
+// Investor best response: fit P(success | signal) on the pitches the field sends them
+// (logistic fit), then fund any signal whose success odds clear their hurdle.
+function investorThreshold(pitchSets, P) {
+  const all = [];
+  for (const { w, pitches } of pitchSets) {
+    if (!pitches.length || w <= 0) continue;
+    const step = Math.max(1, Math.floor(pitches.length / 600));
+    const ww = w * Math.min(1, pitches.length / 50) / Math.ceil(pitches.length / step);
+    for (let i = 0; i < pitches.length; i += step) all.push([pitches[i].s, pitches[i].ok, ww]);
+  }
+  if (all.length < 30) return null;
+  let b0 = -2, b1 = 3;
+  for (let it = 0; it < 25; it++) {
+    let g0 = 0, g1 = 0, h00 = 1e-9, h01 = 0, h11 = 1e-9;
+    for (const [x, y, w] of all) {
+      const p = sig(b0 + b1 * x), r = w * (y - p), v = w * p * (1 - p);
+      g0 += r; g1 += r * x; h00 += v; h01 += v * x; h11 += v * x * x;
+    }
+    const det = h00 * h11 - h01 * h01; if (Math.abs(det) < 1e-12) break;
+    b0 = clamp(b0 + (h11 * g0 - h01 * g1) / det, -30, 30);
+    b1 = clamp(b1 + (h00 * g1 - h01 * g0) / det, -60, 60);
+  }
+  if (b1 <= 0.05) return null;
+  return clamp((Math.log(P.hurdle / (1 - P.hurdle)) - b0) / b1, 0.3, 0.8);
+}
+
+const ARCH = [
+  { id: 'hermit', name: 'Lab hermit', note: 'Almost all tech, apply for the odd grant',
+    w: [[.85,.10,0,0,.05],[.85,.10,0,0,.05],[.85,.10,0,0,.05]] },
+  { id: 'grant', name: 'Grant farmer', note: 'Lives on government money throughout',
+    w: [[.45,.45,0,0,.10],[.45,.45,0,0,.10],[.45,.40,0,.05,.10]] },
+  { id: 'pitch', name: 'Pitch machine', note: 'Chases VCs and angels from day one',
+    w: [[.45,.05,.40,0,.10],[.45,.05,.40,0,.10],[.45,.05,.35,.05,.10]] },
+  { id: 'lean', name: 'Customer-first', note: 'Heavy discovery and selling from day one',
+    w: [[.35,.10,.05,.20,.30],[.35,.10,.05,.20,.30],[.35,.10,.05,.20,.30]] },
+  { id: 'even', name: 'Even split', note: 'Equal effort on everything, always',
+    w: [[.2,.2,.2,.2,.2],[.2,.2,.2,.2,.2],[.2,.2,.2,.2,.2]] },
+  { id: 'staged', name: 'Staged', note: 'Tech + grants, then customers, then investors',
+    w: [[.60,.30,0,0,.10],[.45,.20,.05,.10,.20],[.35,.05,.20,.25,.15]] }
+];
+
+// What the founders maximise: 'value' = P(success) x equity kept, 'success' = P(success).
+function score(r, P) { return P.objective === 'success' ? r.pSuccess : r.payoff; }
+
+// Population game: shares evolve by replicator dynamics; the grant contest and the
+// investor threshold are set by whoever is in the population.
+function evolve(strats, P, opt) {
+  opt = opt || {};
+  const gens = opt.gens || 24, n = opt.n || 300, seed = opt.seed || 1;
+  let shares = strats.map(() => 1 / strats.length);
+  let env = opt.env ? { ...opt.env } : defaultEnv();
+  const hist = [];
+  let res;
+  for (let g = 0; g < gens; g++) {
+    res = strats.map(st => evaluate(phasePolicy(st.w), P, env, n, seed + g * 104729));
+    hist.push({ shares: shares.slice(), env: { ...env }, payoff: res.map(r => r.payoff) });
+    // The field funders face: half this evolving population, half a fixed mixed background.
+    const nb = strats.filter(st => st.id !== 'opt').length;
+    const field = strats.map((st, i) => 0.5 * shares[i] + (st.id !== 'opt' ? 0.5 / nb : 0));
+    const xb = res.reduce((a, r, i) => a + field[i] * r.xbar, 0);
+    const th = investorThreshold(res.map((r, i) => ({ w: field[i], pitches: r.pitches })), P);
+    env = { xbar: 0.5 * env.xbar + 0.5 * xb, theta: th == null ? env.theta : 0.6 * env.theta + 0.4 * th };
+    const fit = res.map(r => score(r, P) + 0.02);
+    const avg = fit.reduce((a, f, i) => a + shares[i] * f, 0);
+    shares = shares.map((sh, i) => sh * fit[i] / avg);
+    const floor = 0.004; shares = shares.map(sh => Math.max(floor, sh));
+    const sm = shares.reduce((a, b) => a + b, 0); shares = shares.map(sh => sh / sm);
+  }
+  return { shares, env, hist, res };
+}
+
+// One generation of the population game, for the animated demo.
+function evolveStep(strats, shares, env, P, n, seed) {
+  const res = strats.map(st => evaluate(phasePolicy(st.w), P, env, n, seed));
+  const nb = strats.filter(st => st.id !== 'opt').length;
+  const field = strats.map((st, i) => 0.5 * shares[i] + (st.id !== 'opt' ? 0.5 / nb : 0));
+  const xb = res.reduce((a, r, i) => a + field[i] * r.xbar, 0);
+  const th = investorThreshold(res.map((r, i) => ({ w: field[i], pitches: r.pitches })), P);
+  const env2 = { xbar: 0.5 * env.xbar + 0.5 * xb, theta: th == null ? env.theta : 0.6 * env.theta + 0.4 * th };
+  const fit = res.map(r => score(r, P) + 0.02);
+  const avg = fit.reduce((a, f, i) => a + shares[i] * f, 0);
+  let sh = shares.map((x, i) => Math.max(0.004, x * fit[i] / avg));
+  const sm = sh.reduce((a, b) => a + b, 0); sh = sh.map(x => x / sm);
+  return { shares: sh, env: env2, res };
+}
+
+// Best response by cross-entropy search over the 3x5 phase weights.
+function optimise(P, env, opt) {
+  opt = opt || {};
+  const iters = opt.iters || 14, pop = opt.pop || 48, n = opt.n || 220, seed = opt.seed || 99;
+  const rng = mulberry32(seed);
+  let mu = (opt.start || ARCH[5].w).flat().slice();
+  let sd = mu.map(() => 0.15);
+  let best = null;
+  for (let it = 0; it < iters; it++) {
+    const cands = [];
+    for (let c = 0; c < pop; c++) {
+      const v = c === 0 ? mu.slice() : mu.map((m, i) => clamp(m + sd[i] * gauss(rng), 0, 1));
+      const w = [0, 1, 2].map(ph => {
+        const row = v.slice(ph * 5, ph * 5 + 5).map(x => x < 0.02 ? 0 : x);
+        const t = row.reduce((a, b) => a + b, 0) || 1; return row.map(x => x / t);
+      });
+      const r = evaluate(phasePolicy(w), P, env, n, seed + 31 * it);
+      cands.push({ w, f: score(r, P) });
+    }
+    cands.sort((a, b) => b.f - a.f);
+    const elite = cands.slice(0, Math.max(6, pop >> 3));
+    const flat = elite.map(c => c.w.flat());
+    mu = mu.map((_, i) => flat.reduce((a, f) => a + f[i], 0) / flat.length);
+    sd = sd.map((_, i) => Math.max(0.015, Math.sqrt(flat.reduce((a, f) => a + (f[i] - mu[i]) ** 2, 0) / flat.length)));
+    if (!best || cands[0].f > best.f) best = cands[0];
+    if (opt.onIter) opt.onIter(it, best.f);
+  }
+  const w = [0, 1, 2].map(ph => {
+    const row = mu.slice(ph * 5, ph * 5 + 5).map(x => x < 0.02 ? 0 : x);
+    const t = row.reduce((a, b) => a + b, 0) || 1; return row.map(x => x / t);
+  });
+  return { w };
+}
+
+// Timing experiment: when to start customer-facing work in earnest.
+function timingSweep(P, env, n, seed) {
+  const pts = [];
+  for (let x = 2; x <= 6.001; x += 0.5) {
+    const mk = early => s => s.trl < x
+      ? [.62 - early, .30, .08, 0, early]
+      : (s.trl < 5 ? [.42, .15, .08, .10, .25] : [.35, .05, .20, .22, .18]);
+    const a = evaluate(mk(0), P, env, n, seed), b = evaluate(mk(0.08), P, env, n, seed);
+    pts.push({ x, silent: a.pSuccess, listen: b.pSuccess });
+  }
+  return pts;
+}
+
+function summarise(trajs, P) {
+  const H = P.horizon, q = (arr, p) => { const a = arr.slice().sort((x, y) => x - y); return a[Math.floor(p * (a.length - 1))]; };
+  const rows = [], ph = [0, 0, 0];
+  for (let m = 1; m <= H; m++) {
+    const col = { trl: [], cash: [], K: [], R: [] };
+    for (const o of trajs) {
+      const t = o.traj[Math.min(m, o.traj.length) - 1]; if (!t) continue;
+      col.trl.push(t.trl); col.cash.push(Math.max(0, t.cash)); col.K.push(t.K); col.R.push(t.R);
+      if (m <= o.traj.length) ph[phaseOf(t.trl)]++;
+    }
+    rows.push({ m, trl: q(col.trl, .5), cash: q(col.cash, .5), K: q(col.K, .5), R: q(col.R, .5) });
+  }
+  const tot = ph[0] + ph[1] + ph[2] || 1;
+  return { rows, phaseShare: ph.map(x => x / tot), phaseMonths: ph.map(x => x / trajs.length) };
+}
+
+// Full pipeline: equilibrium field -> best response -> re-equilibrate -> report.
+function runAll(P, progress) {
+  progress = progress || (() => {});
+  const base = () => ARCH.map(a => ({ ...a }));
+  progress('Letting the field of rival startups settle', 0.05);
+  let ev = evolve(base(), P, { gens: 16, n: 250 });
+  let env = ev.env, opt = null;
+  for (let round = 0; round < 2; round++) {
+    progress(round ? 'Re-checking the plan against the new field' : 'Searching for the best effort plan', 0.2 + 0.35 * round);
+    opt = optimise(P, env, { start: opt ? opt.w : undefined, seed: 99 + round, iters: round ? 9 : 13, pop: 44, n: 220 });
+    ev = evolve(base().concat([{ id: 'opt', name: 'Optimised plan', note: 'Best response found by search', w: opt.w }]),
+                P, { gens: 14, n: 250, env });
+    env = ev.env;
+  }
+  progress('Scoring every strategy', 0.85);
+  const strats = base().concat([{ id: 'opt', name: 'Optimised plan', note: 'Best response found by search', w: opt.w }]);
+  const out = { P, env, strategies: [], traj: {} };
+  strats.forEach((st, i) => {
+    const keep = (st.id === 'opt' || st.id === 'lean') ? 300 : 0;
+    const r = evaluate(phasePolicy(st.w), P, env, 2000, 4242, keep);
+    if (keep) out.traj[st.id] = summarise(r.trajs, P);
+    out.strategies.push({ id: st.id, name: st.name, note: st.note, w: st.w, share: ev.shares[i],
+      pSuccess: r.pSuccess, pDead: r.pDead, equity: r.equity, payoff: r.payoff, tSuccess: r.tSuccess,
+      grants: r.grants, contracts: r.contracts, rounds: r.rounds });
+  });
+  progress('Testing when to start talking to customers', 0.93);
+  out.timing = timingSweep(P, env, 900, 7);
+  return out;
+}
+
+const SIM = { ACTS, ARCH, defaultParams, defaultEnv, simulate, evaluate, evolve, optimise,
+              phasePolicy, phaseOf, timingSweep, investorThreshold, mulberry32, score, runAll, evolveStep };
+if (typeof module !== 'undefined' && module.exports) module.exports = SIM;
+
+</script>
+<script>
+const DEFAULT = {"P":{"horizon":36,"cash0":150,"burn0":14,"labCost":8,"startTRL":2,"techRate":0.42,"wasteMax":0.7,"learnRate":0.3,"friction":0.6,"trlShow":5,"trlPilot":4.5,"rivals":10,"grantAwards":1.2,"grantSize":150,"hurdle":0.25,"raiseBase":500,"goalTRL":6,"objective":"value"},"env":{"xbar":0.1193,"theta":0.3},"strategies":[{"id":"hermit","name":"Lab hermit","note":"Almost all tech, apply for the odd grant","w":[[0.85,0.1,0,0,0.05],[0.85,0.1,0,0,0.05],[0.85,0.1,0,0,0.05]],"share":0.0039,"pSuccess":0,"pDead":0.995,"equity":null,"payoff":0,"tSuccess":null,"grants":0.4775,"contracts":0,"rounds":0},{"id":"grant","name":"Grant farmer","note":"Lives on government money throughout","w":[[0.45,0.45,0,0,0.1],[0.45,0.45,0,0,0.1],[0.45,0.4,0,0.05,0.1]],"share":0.0039,"pSuccess":0.2355,"pDead":0.2765,"equity":1,"payoff":0.2355,"tSuccess":31.7176,"grants":7.5145,"contracts":0.251,"rounds":0},{"id":"pitch","name":"Pitch machine","note":"Chases VCs and angels from day one","w":[[0.45,0.05,0.4,0,0.1],[0.45,0.05,0.4,0,0.1],[0.45,0.05,0.35,0.05,0.1]],"share":0.0039,"pSuccess":0.2885,"pDead":0.06,"equity":0.5607,"payoff":0.1617,"tSuccess":31.747,"grants":1.0635,"contracts":0.3105,"rounds":3.6745},{"id":"lean","name":"Customer-first","note":"Heavy discovery and selling from day one","w":[[0.35,0.1,0.05,0.2,0.3],[0.35,0.1,0.05,0.2,0.3],[0.35,0.1,0.05,0.2,0.3]],"share":0.0039,"pSuccess":0.1905,"pDead":0.387,"equity":0.66,"payoff":0.1257,"tSuccess":33.8451,"grants":2.0065,"contracts":0.279,"rounds":1.8585},{"id":"even","name":"Even split","note":"Equal effort on everything, always","w":[[0.2,0.2,0.2,0.2,0.2],[0.2,0.2,0.2,0.2,0.2],[0.2,0.2,0.2,0.2,0.2]],"share":0.0039,"pSuccess":0,"pDead":0.0245,"equity":null,"payoff":0,"tSuccess":null,"grants":6.1085,"contracts":0.016,"rounds":3.563},{"id":"staged","name":"Staged","note":"Tech + grants, then customers, then investors","w":[[0.6,0.3,0,0,0.1],[0.45,0.2,0.05,0.1,0.2],[0.35,0.05,0.2,0.25,0.15]],"share":0.0039,"pSuccess":0.4305,"pDead":0.498,"equity":0.7877,"payoff":0.3391,"tSuccess":30.0929,"grants":2.788,"contracts":0.6485,"rounds":0.904},{"id":"opt","name":"Optimised plan","note":"Best response found by search","w":[[0.4058,0.3305,0.1371,0,0.1266],[0.701,0.1064,0,0.0305,0.1622],[0.4083,0,0,0.4059,0.1857]],"share":0.9764,"pSuccess":0.829,"pDead":0.09,"equity":0.749,"payoff":0.621,"tSuccess":29.6628,"grants":3.8145,"contracts":1.255,"rounds":1.649}],"traj":{"lean":{"rows":[{"m":1,"trl":2.1744,"cash":133.2,"K":0.2049,"R":0.4563},{"m":2,"trl":2.3492,"cash":116.2372,"K":0.2892,"R":0.3236},{"m":3,"trl":2.5058,"cash":99.1384,"K":0.3577,"R":0.2017},{"m":4,"trl":2.6689,"cash":81.9129,"K":0.4139,"R":0.09},{"m":5,"trl":2.8185,"cash":64.7232,"K":0.4605,"R":0},{"m":6,"trl":2.9471,"cash":146.1173,"K":0.4998,"R":0},{"m":7,"trl":3.0836,"cash":128.6214,"K":0.5362,"R":0},{"m":8,"trl":3.2223,"cash":111.1399,"K":0.57,"R":0},{"m":9,"trl":3.3303,"cash":93.8825,"K":0.6008,"R":0},{"m":10,"trl":3.4188,"cash":76.5699,"K":0.6299,"R":0},{"m":11,"trl":3.5096,"cash":70.2316,"K":0.6568,"R":0},{"m":12,"trl":3.6488,"cash":137.8861,"K":0.6818,"R":0},{"m":13,"trl":3.7416,"cash":152.0544,"K":0.705,"R":0},{"m":14,"trl":3.8634,"cash":147.7261,"K":0.7265,"R":0},{"m":15,"trl":3.9483,"cash":231.6157,"K":0.7461,"R":0},{"m":16,"trl":4.0156,"cash":320.3123,"K":0.7646,"R":0},{"m":17,"trl":4.1005,"cash":338.2629,"K":0.7818,"R":0},{"m":18,"trl":4.1906,"cash":385.1641,"K":0.7977,"R":0},{"m":19,"trl":4.3234,"cash":386.1038,"K":0.8124,"R":0},{"m":20,"trl":4.3926,"cash":395.7523,"K":0.8261,"R":0},{"m":21,"trl":4.4917,"cash":383.8704,"K":0.8387,"R":0},{"m":22,"trl":4.5685,"cash":373.1509,"K":0.8505,"R":0},{"m":23,"trl":4.6482,"cash":376.2841,"K":0.8614,"R":0},{"m":24,"trl":4.7499,"cash":446.7333,"K":0.8716,"R":0.0017},{"m":25,"trl":4.8396,"cash":448.2958,"K":0.881,"R":0.0076},{"m":26,"trl":4.9197,"cash":446.0376,"K":0.8898,"R":0.019},{"m":27,"trl":5.0029,"cash":532.5871,"K":0.8981,"R":0.0757},{"m":28,"trl":5.0748,"cash":550.9269,"K":0.906,"R":0.1297},{"m":29,"trl":5.171,"cash":572.5677,"K":0.9138,"R":0.177},{"m":30,"trl":5.3114,"cash":582.9598,"K":0.921,"R":0.2264},{"m":31,"trl":5.3932,"cash":677.8922,"K":0.9281,"R":0.2728},{"m":32,"trl":5.4666,"cash":674.6005,"K":0.9349,"R":0.3165},{"m":33,"trl":5.5432,"cash":693.9759,"K":0.9412,"R":0.3575},{"m":34,"trl":5.6556,"cash":701.0908,"K":0.9465,"R":0.3996},{"m":35,"trl":5.725,"cash":778.8683,"K":0.9516,"R":0.4357},{"m":36,"trl":5.8259,"cash":793.5298,"K":0.9558,"R":0.4663}],"phaseShare":[0.4974,0.2352,0.2674],"phaseMonths":[13.07,6.18,7.0267]},"opt":{"rows":[{"m":1,"trl":2.1949,"cash":132.7536,"K":0.1625,"R":0.5937},{"m":2,"trl":2.3831,"cash":115.3065,"K":0.2205,"R":0.5882},{"m":3,"trl":2.5583,"cash":97.735,"K":0.2742,"R":0.5837},{"m":4,"trl":2.7267,"cash":179.3135,"K":0.3241,"R":0.5799},{"m":5,"trl":2.8754,"cash":161.645,"K":0.3705,"R":0.5768},{"m":6,"trl":3.0432,"cash":143.7462,"K":0.4136,"R":0.5745},{"m":7,"trl":3.1932,"cash":127.4022,"K":0.4537,"R":0.5729},{"m":8,"trl":3.3303,"cash":223.0254,"K":0.491,"R":0.5721},{"m":9,"trl":3.4702,"cash":222.7796,"K":0.5257,"R":0.5718},{"m":10,"trl":3.5812,"cash":342.5686,"K":0.558,"R":0.5721},{"m":11,"trl":3.7056,"cash":527.1954,"K":0.5882,"R":0.5729},{"m":12,"trl":3.8247,"cash":648.6617,"K":0.6163,"R":0.5741},{"m":13,"trl":3.9311,"cash":682.2779,"K":0.6426,"R":0.5753},{"m":14,"trl":4.0448,"cash":756.5689,"K":0.6671,"R":0.5759},{"m":15,"trl":4.2127,"cash":772.2779,"K":0.6933,"R":0.5769},{"m":16,"trl":4.3525,"cash":812.6018,"K":0.7176,"R":0.5777},{"m":17,"trl":4.5275,"cash":835.5951,"K":0.74,"R":0.5795},{"m":18,"trl":4.6904,"cash":851.7371,"K":0.7605,"R":0.5824},{"m":19,"trl":4.8452,"cash":835.3308,"K":0.7796,"R":0.5871},{"m":20,"trl":5.004,"cash":840.5916,"K":0.7973,"R":0.5991},{"m":21,"trl":5.129,"cash":829.4427,"K":0.8139,"R":0.6138},{"m":22,"trl":5.2343,"cash":820.4369,"K":0.8305,"R":0.6311},{"m":23,"trl":5.347,"cash":819.3164,"K":0.8464,"R":0.6511},{"m":24,"trl":5.446,"cash":801.7303,"K":0.861,"R":0.668},{"m":25,"trl":5.5576,"cash":792.4635,"K":0.875,"R":0.6856},{"m":26,"trl":5.6692,"cash":799.6958,"K":0.8877,"R":0.7015},{"m":27,"trl":5.7684,"cash":787.1775,"K":0.8985,"R":0.7213},{"m":28,"trl":5.8731,"cash":780.6936,"K":0.9073,"R":0.7365},{"m":29,"trl":5.9805,"cash":779.6022,"K":0.9148,"R":0.7487},{"m":30,"trl":6.0297,"cash":778.4333,"K":0.9212,"R":0.7601},{"m":31,"trl":6.0526,"cash":768.1245,"K":0.9262,"R":0.7665},{"m":32,"trl":6.0638,"cash":759.1149,"K":0.929,"R":0.7731},{"m":33,"trl":6.0779,"cash":759.5662,"K":0.9301,"R":0.7797},{"m":34,"trl":6.0822,"cash":759.5662,"K":0.9301,"R":0.7838},{"m":35,"trl":6.0858,"cash":759.5662,"K":0.9301,"R":0.7896},{"m":36,"trl":6.0858,"cash":756.5499,"K":0.9301,"R":0.791}],"phaseShare":[0.4484,0.2049,0.3467],"phaseMonths":[12.9467,5.9167,10.01]}},"timing":[{"x":2,"silent":0.4033,"listen":0.4033},{"x":2.5,"silent":0.4922,"listen":0.5267},{"x":3,"silent":0.4933,"listen":0.6},{"x":3.5,"silent":0.5356,"listen":0.6033},{"x":4,"silent":0.4856,"listen":0.6533},{"x":4.5,"silent":0.3578,"listen":0.6689},{"x":5,"silent":0.1544,"listen":0.6233},{"x":5.5,"silent":0.0344,"listen":0.5911},{"x":6,"silent":0,"listen":0.4578}]};
+const A = [
+  { k: 'tech', name: 'Technology (TRL)', short: 'technology' },
+  { k: 'gov', name: 'Government grants & contracts', short: 'government funding' },
+  { k: 'vc', name: 'Investors (VC, angel)', short: 'investor pitching' },
+  { k: 'ind', name: 'Industry contracts', short: 'industry contracts' },
+  { k: 'disc', name: 'Customer discovery', short: 'customer discovery' }
+];
+const PH = [['TRL 2 – 4', 'Lab proof'], ['TRL 4 – 5', 'Prototype'], ['TRL 5 – 6', 'Demo and pilot']];
+const SL = [
+  { k: 'cash0', label: 'Starting cash', min: 50, max: 500, step: 10, fmt: v => '$' + v + 'k' },
+  { k: 'burn0', label: 'Fixed monthly burn', min: 6, max: 40, step: 1, fmt: v => '$' + v + 'k' },
+  { k: 'horizon', label: 'Time available', min: 24, max: 60, step: 6, fmt: v => v + ' months' },
+  { k: 'techRate', label: 'Speed of tech progress', min: 0.25, max: 0.65, step: 0.01, fmt: v => v < 0.35 ? 'slow' : v > 0.5 ? 'fast' : 'typical' },
+  { k: 'friction', label: 'Customer friction when early', min: 0, max: 1.5, step: 0.05, fmt: v => v == 0 ? 'none' : v < 0.4 ? 'low' : v > 0.9 ? 'high' : 'medium' },
+  { k: 'rivals', label: 'Rivals for the same grants', min: 2, max: 30, step: 1, fmt: v => v },
+  { k: 'hurdle', label: 'Investor caution', min: 0.1, max: 0.5, step: 0.01, fmt: v => 'needs ' + Math.round(v * 100) + '% odds' }
+];
+const $ = id => document.getElementById(id);
+const pct = (x, d) => isFinite(x) ? (x * 100).toFixed(d || 0) + '%' : '–';
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const tip = $('tip');
+document.addEventListener('mousemove', e => {
+  if (e.target.id === 'arena') return;
+  const t = e.target.closest && e.target.closest('[data-tip]');
+  if (!t) { tip.hidden = true; return; }
+  tip.textContent = t.dataset.tip; tip.hidden = false;
+  const w = tip.offsetWidth;
+  tip.style.left = Math.max(8, Math.min(window.innerWidth - w - 8, e.clientX + 12)) + 'px';
+  tip.style.top = (e.clientY + 14) + 'px';
+});
+
+function mixOverall(st, tr) { return A.map((_, i) => st.w.reduce((a, row, p) => a + row[i] * tr.phaseShare[p], 0)); }
+
+function render(R) {
+  const opt = R.strategies.find(s => s.id === 'opt'), tr = R.traj.opt;
+  const mix = mixOverall(opt, tr), funding = mix[1] + mix[2] + mix[3];
+  const top = p => { const r = opt.w[p].map((v, i) => [v, i]).sort((a, b) => b[0] - a[0]); return r.filter(x => x[0] >= 0.1).slice(0, 3).map(x => A[x[1]].short + ' ' + pct(x[0])).join(', '); };
+  const rank = [['technology', mix[0]], ['funding', funding], ['customer discovery', mix[4]]].sort((a, b) => b[1] - a[1]);
+  $('v-head').textContent = 'Most energy goes to ' + rank[0][0] + ' (' + pct(rank[0][1]) + '), then ' + rank[1][0] + ' (' + pct(rank[1][1]) + '), then ' + rank[2][0] + ' (' + pct(rank[2][1]) + ')';
+  const fundMix = [[mix[1], 'government'], [mix[3], 'industry contracts'], [mix[2], 'investors']].sort((a, b) => b[0] - a[0]);
+  $('v-list').innerHTML = [
+    '<b>Lab proof, TRL 2–4:</b> ' + top(0) + '. ' + (opt.w[0][3] < 0.05 ? 'No selling yet.' : ''),
+    '<b>Prototype, TRL 4–5:</b> ' + top(1) + '.',
+    '<b>Demo and pilot, TRL 5–6:</b> ' + top(2) + '.',
+    'Across the whole run the funding effort leans on ' + fundMix[0][1] + ' first, then ' + fundMix[1][1] + (fundMix[2][0] >= 0.02 ? ', then ' + fundMix[2][1] : '; ' + fundMix[2][1] + ' get almost none') + '.'
+  ].map(x => '<li>' + x + '</li>').join('');
+  const second = R.strategies.filter(s => s.id !== 'opt').sort((a, b) => b.pSuccess - a.pSuccess)[0];
+  $('v-kpis').innerHTML = [
+    [pct(opt.pSuccess), 'reach the milestone'],
+    [pct(opt.pDead), 'run out of cash'],
+    [pct(opt.equity), 'equity kept by founders'],
+    [isFinite(opt.tSuccess) ? opt.tSuccess.toFixed(0) + ' mo' : '–', 'typical time to milestone'],
+    [pct(second.pSuccess), 'best fixed strategy (' + second.name + ')']
+  ].map(k => '<div class="kpi"><b>' + k[0] + '</b><span>' + esc(k[1]) + '</span></div>').join('');
+
+  $('legend').innerHTML = A.map(a => '<span><i style="background:var(--' + a.k + ')"></i>' + a.name + '</span>').join('');
+  $('plan').innerHTML = PH.map((p, i) =>
+    '<div class="prow"><div class="plabel"><b>' + p[0] + '</b><span>' + p[1] + ' · about ' + tr.phaseMonths[i].toFixed(0) + ' months</span></div><div class="bar">' +
+    A.map((a, j) => { const v = opt.w[i][j]; return v < 0.005 ? '' :
+      '<div class="seg" data-a="' + a.k + '" style="flex:' + v + ' 1 0;background:var(--' + a.k + ')" data-tip="' + esc(a.name + ': ' + pct(v) + ' of time at ' + p[0]) + '">' + (v >= 0.07 ? pct(v) : '') + '</div>'; }).join('') +
+    '</div></div>').join('') +
+    '<div class="prow"><div class="plabel"><b>Whole run</b><span>time-weighted</span></div><div class="bar" style="height:22px">' +
+    A.map((a, j) => mix[j] < 0.005 ? '' : '<div class="seg" data-a="' + a.k + '" style="flex:' + mix[j] + ' 1 0;background:var(--' + a.k + ')" data-tip="' + esc(a.name + ': ' + pct(mix[j]) + ' overall') + '">' + (mix[j] >= 0.07 ? pct(mix[j]) : '') + '</div>').join('') + '</div></div>';
+
+  const rows = R.strategies.slice().sort((a, b) => b.payoff - a.payoff || b.pSuccess - a.pSuccess);
+  $('tour').innerHTML = '<thead><tr><th>Strategy</th><th>Reach milestone</th><th>Run out of cash</th><th>Equity kept</th><th>Founder value</th></tr></thead><tbody>' +
+    rows.map(s => '<tr class="' + (s.id === 'opt' ? 'best' : '') + '"><td><b>' + esc(s.name) + '</b><small>' + esc(s.note) + '</small>' +
+      '<div class="mix">' + A.map((a, j) => '<i style="flex:' + s.w[0][j] + ' 1 0;background:var(--' + a.k + ')" data-tip="' + esc('Opening mix: ' + a.name + ' ' + pct(s.w[0][j])) + '"></i>').join('') + '</div></td>' +
+      '<td><div class="cellbar"><span class="track"><i style="width:' + (s.pSuccess * 100).toFixed(1) + '%"></i></span><span class="num">' + pct(s.pSuccess) + '</span></div></td>' +
+      '<td class="num">' + pct(s.pDead) + '</td><td class="num">' + pct(s.equity) + '</td><td class="num">' + (s.payoff * 100).toFixed(0) + '</td></tr>').join('') + '</tbody>';
+
+  // timing
+  const T = R.timing, bestL = T.reduce((a, b) => b.listen > a.listen ? b : a), bestS = T.reduce((a, b) => b.silent > a.silent ? b : a), first = T[0], last = T[T.length - 1];
+  $('timing-text').textContent = 'Each point is the same staged plan, changing only the TRL at which the team switches to heavy customer work (about 25% discovery plus 10–20% selling). Going heavy from day one reaches the milestone ' + pct(first.listen) +
+    ' of the time. Waiting until TRL ' + bestL.x + ' while listening lightly reaches ' + pct(bestL.listen) + '. Staying silent until TRL ' + last.x + ' reaches ' + pct(last.silent) + '.';
+  $('timing').innerHTML = lineChart({ w: 720, h: 300, xs: T.map(p => p.x), series: [T.map(p => p.listen * 100), T.map(p => p.silent * 100)],
+    ymax: Math.max(40, Math.ceil(Math.max(...T.map(p => Math.max(p.listen, p.silent))) * 10) * 10), yfmt: v => v + '%', xfmt: v => v % 1 ? '' : 'TRL ' + v,
+    xlabel: 'TRL at which heavy customer work starts', tipfmt: (x, v, i) => 'Switch at TRL ' + x + ': ' + v.toFixed(0) + '% reach the milestone (' + (i ? 'no contact before' : 'light listening before') + ')', dots: true });
+
+  const L = R.traj.lean.rows, O = tr.rows, xs = O.map(r => r.m);
+  const panels = [['TRL', 'trl', v => v.toFixed(0), 9, 1], ['Cash ($k)', 'cash', v => v.toFixed(0), null, 0], ['Customer trust', 'R', v => (v * 100).toFixed(0) + '%', 1, 0], ['Market knowledge', 'K', v => (v * 100).toFixed(0) + '%', 1, 0]];
+  $('multi').innerHTML = panels.map(p => {
+    const so = O.map(r => r[p[1]]), sl = L.map(r => r[p[1]]);
+    let ymax = p[3] || Math.max(100, Math.ceil(Math.max(...so, ...sl) / 100) * 100);
+    const sc = p[3] === 1 ? 100 : 1;
+    return '<div class="chart"><h3>' + p[0] + '</h3>' + lineChart({ w: 340, h: 170, xs, series: [so.map(v => v * sc), sl.map(v => v * sc)], ymin: p[4], ymax: ymax * sc,
+      yfmt: v => p[3] === 1 ? v + '%' : v, xfmt: v => v % 12 === 0 ? 'mo ' + v : '', xticks: xs.filter(v => v % 12 === 0),
+      tipfmt: (x, v, i) => 'Month ' + x + ', ' + (i ? 'customer-first' : 'optimised') + ': ' + p[2](v / sc) }) + '</div>'; }).join('');
+
+  const P = R.P, x = opt.w[0][1] * Math.exp(-Math.pow((3 - 3.5) / 2.5, 2)) * 0.72;
+  const pg = Math.min(0.9, P.grantAwards * x / (x + P.rivals * R.env.xbar));
+  $('games').innerHTML =
+    '<div><h3>Grants are a contest</h3><p>Your odds depend on your effort relative to ' + P.rivals + ' rivals. With the field as it settles, the plan\'s early grant effort wins about <span class="num">' + pct(pg) + '</span> of months, so roughly one award every <span class="num">' + (pg > 0 ? (1 / pg).toFixed(0) : '∞') + '</span> months. More rivals make each hour of grant writing worth less.</p></div>' +
+    '<div><h3>Investors read signals</h3><p>They cannot see quality, only a signal built from TRL, contracts, grants and market knowledge. Their bar settles at <span class="num">' + R.env.theta.toFixed(2) + '</span> on a 0–1 scale; a day-one startup shows about <span class="num">0.10</span>. Pitching below the bar costs goodwill and, if an angel bites, expensive equity.</p></div>' +
+    '<div><h3>Customers remember</h3><p>The buyer pool is small, so this is a repeated game. Listening lightly is cheap. Pushing a product that is not ready spends trust you need later, when a pilot contract depends on trust times knowledge times a working demo.</p></div>';
+}
+
+function lineChart(o) {
+  const m = { l: 40, r: 12, t: 10, b: o.xlabel ? 44 : 24 }, W = o.w, H = o.h, iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const x0 = o.xs[0], x1 = o.xs[o.xs.length - 1], ymin = o.ymin || 0, ymax = o.ymax;
+  const X = v => m.l + (v - x0) / (x1 - x0) * iw, Y = v => m.t + ih - (Math.min(ymax, Math.max(ymin, v)) - ymin) / (ymax - ymin) * ih;
+  let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img">';
+  for (let i = 0; i <= 4; i++) { const v = ymin + (ymax - ymin) * i / 4, y = Y(v);
+    s += '<line x1="' + m.l + '" x2="' + (W - m.r) + '" y1="' + y + '" y2="' + y + '" stroke="var(--' + (i ? 'grid' : 'axis') + ')" stroke-width="1"/><text x="' + (m.l - 6) + '" y="' + (y + 4) + '" text-anchor="end">' + o.yfmt(Math.round(v * 10) / 10) + '</text>'; }
+  (o.xticks || o.xs).forEach(v => { const t = o.xfmt(v); if (t) s += '<text x="' + X(v) + '" y="' + (m.t + ih + 16) + '" text-anchor="middle">' + t + '</text>'; });
+  if (o.xlabel) s += '<text class="lab" x="' + (m.l + iw / 2) + '" y="' + (H - 6) + '" text-anchor="middle">' + o.xlabel + '</text>';
+  o.series.forEach((ser, i) => {
+    s += '<path fill="none" stroke="var(--' + (i ? 'muted' : 'ink') + ')" stroke-width="2" stroke-linejoin="round" ' + (i ? 'stroke-dasharray="5 4" ' : '') + 'd="' + ser.map((v, j) => (j ? 'L' : 'M') + X(o.xs[j]).toFixed(1) + ' ' + Y(v).toFixed(1)).join('') + '"/>'; });
+  o.series.forEach((ser, i) => ser.forEach((v, j) => {
+    if (o.dots) s += '<circle cx="' + X(o.xs[j]) + '" cy="' + Y(v) + '" r="4" fill="var(--' + (i ? 'muted' : 'ink') + ')" stroke="var(--surface)" stroke-width="2"/>';
+    s += '<circle cx="' + X(o.xs[j]) + '" cy="' + Y(v) + '" r="' + (o.dots ? 12 : 6) + '" fill="transparent" data-tip="' + esc(o.tipfmt(o.xs[j], v, i)) + '"/>'; }));
+  return s + '</svg>';
+}
+
+// ---- controls + running ----
+const ENG = $('engine-src').textContent;
+const D0 = SIM.defaultParams();
+$('sliders').innerHTML = SL.map(c => '<div class="ctl"><label for="s-' + c.k + '">' + c.label + '<output id="o-' + c.k + '"></output></label><input type="range" id="s-' + c.k + '" min="' + c.min + '" max="' + c.max + '" step="' + c.step + '" value="' + D0[c.k] + '"></div>').join('');
+const sync = () => SL.forEach(c => $('o-' + c.k).textContent = c.fmt(+$('s-' + c.k).value));
+const STALE = 'The animation below now uses these settings. Run the simulation to update the plan and the charts.';
+SL.forEach(c => $('s-' + c.k).addEventListener('input', () => { sync(); $('status').textContent = STALE; arenaLive(); }));
+sync();
+function params() { const P = SIM.defaultParams(); SL.forEach(c => P[c.k] = +$('s-' + c.k).value); P.objective = $('obj-success').checked ? 'success' : 'value'; return P; }
+function busy(b) { $('run').disabled = b; $('reset').disabled = b; }
+function done(R) { render(R); arenaInit(R); busy(false); $('bar').style.width = '100%'; $('status').textContent = 'Updated for your settings.'; }
+function fail(e) { busy(false); $('status').textContent = 'The run failed: ' + (e && e.message || e) + '. Try Reset.'; }
+function run() {
+  const P = params(); busy(true); $('bar').style.width = '3%'; $('status').textContent = 'Starting…';
+  const prog = (msg, f) => { $('status').textContent = msg + '…'; $('bar').style.width = (f * 100) + '%'; };
+  let w = null;
+  try {
+    const url = URL.createObjectURL(new Blob([ENG + '\nonmessage=e=>{try{postMessage({r:SIM.runAll(e.data,(m,f)=>postMessage({m,f}))})}catch(err){postMessage({err:String(err)})}}'], { type: 'text/javascript' }));
+    w = new Worker(url);
+    w.onmessage = e => { const d = e.data; if (d.r) { done(d.r); w.terminate(); } else if (d.err) { fail(d.err); w.terminate(); } else prog(d.m, d.f); };
+    w.onerror = () => { w.terminate(); inline(P); };
+    w.postMessage(P);
+  } catch (e) { inline(P); }
+}
+function inline(P) { $('status').textContent = 'Running (about 10 seconds)…'; setTimeout(() => { try { done(SIM.runAll(P)); } catch (e) { fail(e); } }, 50); }
+$('run').addEventListener('click', run);
+document.querySelectorAll('input[name=obj]').forEach(r => r.addEventListener('change', () => { $('status').textContent = STALE; arenaLive(); }));
+$('reset').addEventListener('click', () => { SL.forEach(c => $('s-' + c.k).value = D0[c.k]); $('obj-value').checked = true; sync(); render(DEFAULT); arenaInit(DEFAULT); $('bar').style.width = '0'; $('status').textContent = 'Showing the default scenario.'; });
+render(DEFAULT);
+
+// ---- animated arena ----
+const AR = { N: 42, playing: false, last: 0, pops: [] };
+const cv = $('arena'), cx = cv.getContext('2d'), sv = $('sigs'), sx = sv.getContext('2d');
+const X0 = 1.6, X1 = 6.35;
+function arenaLive() {
+  if (!AR.strats) return;
+  clearTimeout(AR.deb); AR.deb = setTimeout(() => { const was = AR.playing; AR.playing = false;
+    arenaInit({ P: params(), strategies: AR.strats.map(s => ({ ...s })) }, AR.planP); if (was) { AR.month = 0; play(true); } }, 120);
+}
+function arenaInit(R, planP) {
+  AR.planP = planP || R.P;
+  AR.P = R.P; AR.strats = R.strategies.map(s => ({ id: s.id, name: s.name, w: s.w }));
+  AR.shares = AR.strats.map(() => 1 / AR.strats.length); AR.env = SIM.defaultEnv();
+  AR.gen = 1; AR.hist = [AR.shares.slice()]; AR.thetaHist = [AR.env.theta]; AR.seed = 1000; AR.note = '';
+  cohort(); AR.month = Math.min(18, AR.P.horizon); AR.playing = false; AR.pops = []; $('a-play').textContent = 'Play';
+  const P = AR.P, stale = SL.some(c => P[c.k] !== AR.planP[c.k]) || P.objective !== AR.planP.objective;
+  $('aset').textContent = 'Using: $' + P.cash0 + 'k starting cash, $' + P.burn0 + 'k monthly burn, ' + P.horizon + ' months, ' + P.rivals + ' grant rivals, ' +
+    SL[3].fmt(P.techRate) + ' tech progress, ' + SL[4].fmt(P.friction) + ' customer friction, investors need ' + Math.round(P.hurdle * 100) + '% odds.' +
+    (stale ? ' The Optimised plan lane still shows the plan from the last full run; press Run simulation to re-optimise it for these settings.' : '');
+  draw();
+}
+function cohort() {
+  const n = AR.strats.length, raw = AR.shares.map(s => s * (AR.N - n)), c = raw.map(x => 1 + Math.floor(x));
+  let left = AR.N - c.reduce((a, b) => a + b, 0);
+  raw.map((x, i) => [x - Math.floor(x), i]).sort((a, b) => b[0] - a[0]).slice(0, left).forEach(p => c[p[1]]++);
+  AR.counts = c; AR.mem = []; AR.month = 0; AR.pops = [];
+  const jr = SIM.mulberry32(AR.seed + 5);
+  c.forEach((k, i) => { for (let j = 0; j < k; j++) AR.mem.push({ i, j, jit: jr(), o: SIM.simulate(SIM.phasePolicy(AR.strats[i].w), AR.P, AR.env, SIM.mulberry32(AR.seed += 7919), true) }); });
+}
+function stateAt(mb, t) {
+  const tr = mb.o.traj, P = AR.P, init = { trl: P.startTRL, cash: P.cash0, K: 0.1, R: 0.6, contracts: 0, grants: 0 };
+  const k = Math.max(0, Math.floor(t)), a = k <= 0 ? init : tr[Math.min(k, tr.length) - 1], b = k < tr.length ? tr[k] : a, f = k < tr.length ? t - k : 0;
+  const L = key => a[key] + (b[key] - a[key]) * f, over = t >= tr.length;
+  return { trl: L('trl'), cash: L('cash'), K: L('K'), R: L('R'), contracts: a.contracts, grants: a.grants,
+    dead: mb.o.dead && over, win: mb.o.success && over };
+}
+const sigOf = s => 0.4 * Math.max(0, Math.min(1, (s.trl - 1) / 5)) + 0.2 * s.K + 0.25 * Math.min(1, s.contracts / 2) + 0.15 * Math.min(1, s.grants / 2);
+function fit(c, h) { const d = window.devicePixelRatio || 1, w = c.clientWidth; if (c.width !== Math.round(w * d) || c.height !== Math.round(h * d)) { c.width = Math.round(w * d); c.height = Math.round(h * d); c.style.height = h + 'px'; } const g = c.getContext('2d'); g.setTransform(d, 0, 0, d, 0, 0); return w; }
+function layout(W) {
+  const top = 8, axis = 30, H = 560, avail = H - top - axis, n = AR.strats.length, base = 30, per = (avail - base * n) / AR.N;
+  let y = top; const lanes = AR.counts.map(c => { const h = base + c * per, l = { y, h }; y += h; return l; });
+  const l = 10, r = W - 26; return { lanes, X: v => l + (Math.max(X0, Math.min(X1, v)) - X0) / (X1 - X0) * (r - l), H, bottom: y, l, r };
+}
+function draw() {
+  const cs = getComputedStyle(document.documentElement), col = k => cs.getPropertyValue('--' + k).trim();
+  const W = fit(cv, 560), L = layout(W), P = AR.P, t = AR.month;
+  AR.L = L; AR.pos = [];
+  cx.clearRect(0, 0, W, 560);
+  cx.font = '11px ' + cs.getPropertyValue('--mono'); cx.textBaseline = 'middle';
+  // phase bands and ruler
+  cx.fillStyle = col('accent-soft'); cx.globalAlpha = 0.55; cx.fillRect(L.X(4), 8, L.X(5) - L.X(4), L.bottom - 8); cx.globalAlpha = 1;
+  [2, 3, 4, 5, 6].forEach(v => { const x = L.X(v); cx.strokeStyle = col(v === P.goalTRL ? 'accent' : 'grid'); cx.lineWidth = v === P.goalTRL ? 1.5 : 1; cx.setLineDash(v === P.trlShow ? [4, 4] : []);
+    if (v === P.trlShow) cx.strokeStyle = col('muted');
+    cx.beginPath(); cx.moveTo(x, 8); cx.lineTo(x, L.bottom); cx.stroke(); cx.setLineDash([]);
+    cx.fillStyle = col('muted'); cx.textAlign = 'center'; cx.fillText('TRL ' + v, x, L.bottom + 12); });
+  cx.fillStyle = col('ink2'); cx.font = '11px ' + cs.getPropertyValue('--body');
+  cx.textAlign = 'center'; cx.fillText(W < 520 ? 'demo ready' : 'customers expect a demo', L.X(P.trlShow), L.bottom + 25);
+  cx.fillText(W < 520 ? 'goal' : 'milestone', L.X(P.goalTRL), L.bottom + 25);
+  // lanes
+  AR.strats.forEach((st, i) => { const ln = L.lanes[i];
+    cx.strokeStyle = col('axis'); cx.lineWidth = 1; cx.beginPath(); cx.moveTo(L.l, ln.y + ln.h); cx.lineTo(L.r, ln.y + ln.h); cx.stroke();
+    const prev = AR.hist.length > 1 ? AR.hist[AR.hist.length - 2][i] : AR.shares[i], d = AR.shares[i] - prev;
+    cx.textAlign = 'left'; cx.font = '600 12px ' + cs.getPropertyValue('--body'); cx.fillStyle = col('ink'); cx.fillText(st.name, L.l + 2, ln.y + 10);
+    const nw = cx.measureText(st.name).width; cx.font = '11px ' + cs.getPropertyValue('--mono'); cx.fillStyle = col('ink2');
+    cx.fillText(Math.round(AR.shares[i] * 100) + '% of field' + (Math.abs(d) >= 0.005 ? (d > 0 ? '  ▲' : '  ▼') : ''), L.l + 10 + nw, ln.y + 10);
+  });
+  // dots
+  let alive = 0, dead = 0, win = 0;
+  AR.mem.forEach(mb => { const s = stateAt(mb, t), ln = L.lanes[mb.i];
+    const x = L.X(s.trl), y = ln.y + 20 + mb.jit * Math.max(4, ln.h - 28);
+    AR.pos.push({ x, y, mb, s });
+    if (s.dead) { dead++; cx.strokeStyle = col('bad'); cx.lineWidth = 2; cx.beginPath(); cx.moveTo(x - 4, y - 4); cx.lineTo(x + 4, y + 4); cx.moveTo(x + 4, y - 4); cx.lineTo(x - 4, y + 4); cx.stroke(); return; }
+    if (s.win) { win++; cx.strokeStyle = col('accent'); cx.lineWidth = 2; cx.beginPath(); cx.arc(x, y, 6.5, 0, 6.3); cx.stroke(); cx.fillStyle = col('accent'); cx.beginPath(); cx.arc(x, y, 3, 0, 6.3); cx.fill(); return; }
+    alive++;
+    const r = 2.5 + 5.5 * Math.sqrt(Math.min(900, Math.max(0, s.cash)) / 900);
+    cx.fillStyle = col('surface'); cx.beginPath(); cx.arc(x, y, r + 1.5, 0, 6.3); cx.fill();
+    cx.globalAlpha = 0.22 + 0.78 * s.R; cx.fillStyle = col('ink'); cx.beginPath(); cx.arc(x, y, r, 0, 6.3); cx.fill(); cx.globalAlpha = 1; });
+  // event pops
+  const now = performance.now();
+  AR.pops = AR.pops.filter(p => now - p.t0 < 800);
+  cx.font = '600 11px ' + cs.getPropertyValue('--body'); cx.textAlign = 'center';
+  AR.pops.forEach(p => { const a = (now - p.t0) / 800, pt = AR.pos[p.idx]; if (!pt) return;
+    cx.globalAlpha = 1 - a * a; const tw = cx.measureText(p.text).width + 10, px = Math.max(L.l + tw / 2, Math.min(L.r - tw / 2, pt.x)), py = pt.y - 14 - a * 10;
+    cx.fillStyle = col(p.c); cx.beginPath(); cx.roundRect(px - tw / 2, py - 8, tw, 16, 3); cx.fill();
+    cx.fillStyle = p.c === 'gov' || p.c === 'tech' ? '#fff' : '#0b0b0b'; if (p.c === 'muted') cx.fillStyle = '#fff'; cx.fillText(p.text, px, py + 0.5); cx.globalAlpha = 1; });
+
+  // investor strip
+  const W2 = fit(sv, 96), sl = 10, sr = W2 - 14, SX = v => sl + v * (sr - sl), th = AR.env.theta;
+  sx.clearRect(0, 0, W2, 96);
+  sx.fillStyle = col('accent-soft'); sx.fillRect(SX(th - 0.15), 6, SX(th) - SX(th - 0.15), 58);
+  sx.strokeStyle = col('axis'); sx.lineWidth = 1; sx.beginPath(); sx.moveTo(sl, 64); sx.lineTo(sr, 64); sx.stroke();
+  sx.strokeStyle = col('accent'); sx.lineWidth = 2; sx.beginPath(); sx.moveTo(SX(th), 2); sx.lineTo(SX(th), 64); sx.stroke();
+  AR.pos.forEach(p => { if (p.s.dead || p.s.win) return; const v = sigOf(p.s);
+    sx.fillStyle = col('surface'); sx.beginPath(); sx.arc(SX(v), 12 + p.mb.jit * 46, 4.5, 0, 6.3); sx.fill();
+    sx.fillStyle = col(v >= th ? 'accent' : v >= th - 0.15 ? 'ink2' : 'muted'); sx.beginPath(); sx.arc(SX(v), 12 + p.mb.jit * 46, 3, 0, 6.3); sx.fill(); });
+  sx.font = '11px ' + cs.getPropertyValue('--body'); sx.textBaseline = 'middle'; sx.fillStyle = col('ink2');
+  sx.textAlign = 'left'; sx.fillText('weak signal', sl, 78); sx.textAlign = 'right'; sx.fillText('strong signal', sr, 78);
+  const narrow = W2 < 480;
+  sx.textAlign = SX(th) > W2 * 0.6 ? 'right' : 'left'; sx.fillStyle = col('ink');
+  sx.fillText(narrow ? 'seed bar' : 'seed bar: funded to the right', SX(th) + (sx.textAlign === 'left' ? 6 : -6), 90);
+  if (!narrow) { sx.textAlign = 'right'; sx.fillStyle = col('ink2'); sx.fillText('angel band', SX(th - 0.15) - 6, 90); }
+
+  $('astat').innerHTML = '<span>Generation <b>' + AR.gen + '</b></span><span>Month <b>' + Math.min(P.horizon, Math.floor(t)) + ' / ' + P.horizon + '</b></span><span>Still going <b>' + alive + '</b></span><span>At milestone <b>' + win + '</b></span><span>Out of cash <b>' + dead + '</b></span><span>Investor bar <b>' + th.toFixed(2) + '</b></span>';
+  if (!AR.playing || t >= P.horizon) $('acap').textContent = caption(alive, win, dead);
+}
+function caption(alive, win, dead) {
+  const P = AR.P, t = AR.month;
+  if (t < P.horizon) return (AR.note ? AR.note + ' ' : '') + 'Paused at month ' + Math.floor(t) + ' of generation ' + AR.gen + '. Watch the customer-first lane fade as trust burns, and the grant winners pull ahead in the first year.';
+  const by = AR.strats.map((s, i) => { const m = AR.mem.filter(x => x.i === i); return { name: s.name, n: m.length, w: m.filter(x => x.o.success).length, d: m.filter(x => x.o.dead).length }; });
+  const best = by.slice().sort((a, b) => b.w / b.n - a.w / a.n)[0], worst = by.slice().sort((a, b) => b.d / b.n - a.d / a.n)[0];
+  return 'Generation ' + AR.gen + ' ended: ' + win + ' of ' + AR.N + ' reached the milestone and ' + dead + ' ran out of cash. ' + best.name + ' did best (' + best.w + ' of ' + best.n + '); ' + worst.name + ' lost the most to cash (' + worst.d + ' of ' + worst.n + '). Next generation, the field shifts toward what worked.';
+}
+function nextGen() {
+  const st = SIM.evolveStep(AR.strats, AR.shares, AR.env, AR.P, 200, AR.seed + 31);
+  const lead = st.shares.indexOf(Math.max(...st.shares)), o = AR.env.theta;
+  AR.shares = st.shares; AR.env = st.env; AR.gen++; AR.hist.push(st.shares.slice()); AR.thetaHist.push(st.env.theta);
+  AR.note = 'Investors moved their bar from ' + o.toFixed(2) + ' to ' + st.env.theta.toFixed(2) + '; ' + AR.strats[lead].name + ' is now ' + Math.round(st.shares[lead] * 100) + '% of the field.';
+  cohort();
+}
+function frame(now, tok) {
+  if (!AR.playing || tok !== AR.tok) return;
+  const dt = Math.max(0, Math.min(100, now - AR.last)); AR.last = now;
+  const P = AR.P, before = Math.floor(AR.month);
+  if (AR.month < P.horizon) {
+    AR.month = Math.min(P.horizon, AR.month + dt / 1000 * 1.6 * (+$('a-speed').value));
+    for (let m = before + 1; m <= Math.floor(AR.month); m++) AR.mem.forEach((mb, idx) => { const e = mb.o.traj[m - 1]; if (!e) return;
+      if (e.dead) AR.pops.push({ idx, text: 'out of cash', c: 'bad', t0: now });
+      (e.ev || []).forEach(v => { if (v === 'no') return; AR.pops.push({ idx, text: v === 'grant' ? 'grant' : v === 'pilot' ? 'pilot' : v, c: v === 'grant' ? 'gov' : v === 'pilot' ? 'ind' : 'vc', t0: now }); });
+});
+    if (AR.month >= P.horizon) AR.endAt = now;
+  } else if ($('a-auto').checked) { if (now - AR.endAt > 1800) { nextGen(); $('acap').textContent = AR.note; } }
+  else if (!AR.pops.length) { AR.playing = false; $('a-play').textContent = 'Play'; }
+  draw(); requestAnimationFrame(n => frame(n, tok));
+}
+function play(on) { AR.playing = on; $('a-play').textContent = on ? 'Pause' : 'Play'; if (on) { if (AR.month >= AR.P.horizon && !$('a-auto').checked) nextGen(); AR.last = performance.now(); AR.endAt = AR.last; $('acap').textContent = AR.note || 'Running generation ' + AR.gen + '.'; const tok = AR.tok = (AR.tok || 0) + 1; requestAnimationFrame(n => frame(n, tok)); } else draw(); }
+$('a-play').addEventListener('click', () => play(!AR.playing));
+$('a-next').addEventListener('click', () => { nextGen(); if (!AR.playing) play(true); });
+$('a-restart').addEventListener('click', () => { const R = { P: AR.P, strategies: AR.strats.map(s => ({ ...s })) }; arenaInit(R, AR.planP); AR.month = 0; draw(); });
+window.addEventListener('resize', () => { if (!AR.playing) draw(); });
+if (window.matchMedia) { const mq = matchMedia('(prefers-color-scheme: dark)'); mq.addEventListener && mq.addEventListener('change', () => draw()); }
+new MutationObserver(() => draw()).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+cv.addEventListener('mousemove', e => {
+  const b = cv.getBoundingClientRect(), mx = e.clientX - b.left, my = e.clientY - b.top; let best = null, bd = 14;
+  (AR.pos || []).forEach(p => { const d = Math.hypot(p.x - mx, p.y - my); if (d < bd) { bd = d; best = p; } });
+  if (!best) { tip.hidden = true; return; }
+  const s = best.s;
+  tip.textContent = AR.strats[best.mb.i].name + ' · ' + (s.dead ? 'out of cash at TRL ' + s.trl.toFixed(1) : s.win ? 'reached the milestone' : 'TRL ' + s.trl.toFixed(1) + ', $' + Math.round(s.cash) + 'k, trust ' + Math.round(s.R * 100) + '%, ' + s.grants + ' grants, ' + s.contracts + ' pilots');
+  tip.hidden = false; tip.style.left = Math.max(8, Math.min(window.innerWidth - tip.offsetWidth - 8, e.clientX + 12)) + 'px'; tip.style.top = (e.clientY + 14) + 'px';
+});
+cv.addEventListener('mouseleave', () => tip.hidden = true);
+arenaInit(DEFAULT);
+</script>
+
+</body></html>
